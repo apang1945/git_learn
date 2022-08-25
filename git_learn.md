@@ -1,3 +1,5 @@
+
+
 # git_learn(personal)
 1. git初始化
 
@@ -39,9 +41,9 @@
 
 * SSH相关
 
-    * 生成SSH Key  `ssh-keygen -t rsa –C “youremail@example.com”`
+    * 生成SSH Key  `ssh-keygen -t rsa –C "youremail@example.com"`
 
-        `ssh-keygen -t rsa`意思是创建一个rsa密钥`–C “youremail@example.com”`是为这个密钥建立备注，备注为`youremail@example.com`也可以使用taozi之类的名字
+        `ssh-keygen -t rsa`意思是创建一个rsa密钥`–C "youremail@example.com"`是为这个密钥建立备注，备注为`youremail@example.com`也可以使用taozi之类的名字
     
     * 测试SSH连接  `ssh -T git@github.com`
 
@@ -78,20 +80,82 @@
 
   * 查看用户信息
 
-      ```javascript
-      # system
-      git config --system --list 
-      # global 用户级别
-      git config --global --list
-      # local 当前仓库
-      git config --local --list
-      ```
+    ```javascript
+    # system
+    git config --system --list 
+    # global 用户级别
+    git config --global --list
+    # local 当前仓库
+    git config --local --list
+    ```
 
-      ![](/img/config-1.png)
+    ![](/img/config-1.png)
 
+* 远程仓库相关
   * 检查远程地址`git remote -v`
 
     ![](/img/config-2.png)
+  
+  * git修改远程仓库（未尝试）
+  
+    * 修改命令`git remote set-url origin [url]`
+  
+    * 先删后加
+  
+      ```shell
+      git remote rm origin
+      git remote add origin [url]
+      ```
+  
+    * 直接修改config文件
+    
+      修改后如果git pull会提示fatal: refusing to merge unrelated histories这个问题:
+      解决方法:
+    
+      ```
+      git pull origin master --allow-unrelated-histories
+      ```
+  
+
+
+
+
+
+
+
+4. 服务器相关
+
+* 文件操作
+
+  * 切换用户
+
+    ```shell
+    su - 切换到root用户
+    su – taozi 切换到taozi用户
+    ```
+
+  * 切换目录
+
+    cd ~ 切换到主目录
+    cd /tmp 切换到目录/tmp
+    cd dir 切换到当前目录下的dir目录
+    cd / 切换到根目录
+    cd … 切换到到上一级目录
+    cd …/… 切换到上二级目录
+    cd ~ 切换到用户目录，比如是root用户，则切换到/root下
+
+    
+
+  * 文件删除
+
+    删除文件：`rm /root/install.log`（需要确认） 
+
+    直接删：`rm -f /root/install.log`
+
+    rm * 删除当前目录下的所有文件（未隐藏文件)
+
+
+
 
 - - -
 # take notes a successfull git

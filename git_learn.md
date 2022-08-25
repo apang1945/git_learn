@@ -60,7 +60,38 @@
         > provide shell access.
         ```
 
-![](/img/001.png)
+* Branch 相关
+
+  * 查看本地分支`git branch`.
+
+    ![](/img/branch-1.png)
+
+  * 查看远程分支`git branch -r`,`-r `表示` remote`.
+
+    ![](/img/branch-2.png)
+  
+  * 查看所有分支`git branch -a`
+  
+    ![](/img/branch-3.png)
+  
+* Config 相关
+
+  * 查看用户信息
+
+      ```javascript
+      # system
+      git config --system --list 
+      # global 用户级别
+      git config --global --list
+      # local 当前仓库
+      git config --local --list
+      ```
+
+      ![](/img/config-1.png)
+
+  * 检查远程地址`git remote -v`
+
+    ![](/img/config-2.png)
 
 - - -
 # take notes a successfull git

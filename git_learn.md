@@ -3,13 +3,13 @@
 
     * 初始化username和user email以及后续修改
 
-    ```shell
-    git config --global user.name "Your Name"
-    git config --global user.email "email@example.com"
-    git config --global user.name 'userName'    // 修改登陆账号，userName为你的git账号
-    git config --global user.email 'email'      // 修改登陆邮箱，email为你的git邮箱
-    git config --global user.password 'password'  // 修改登陆密码，password为你的git密码
-    ```
+        ```shell
+        git config --global user.name "Your Name"
+        git config --global user.email "email@example.com"
+        git config --global user.name 'userName'    // 修改登陆账号，userName为你的git账号
+        git config --global user.email 'email'      // 修改登陆邮箱，email为你的git邮箱
+        git config --global user.password 'password'  // 修改登陆密码，password为你的git密码
+        ```
 
     * 基本操作步骤
 
@@ -65,7 +65,7 @@
 
       * 查看本地分支`git branch`.
 
-      ![](/img/branch-1.png)
+        ![](/img/branch-1.png)
 
       * 查看远程分支`git branch -r`,`-r `表示` remote`.
 
@@ -190,11 +190,11 @@
 
       * 底线命令模式
 
-        * **q **退出程序
+        * **q** 退出程序
 
         * **w** 保存文件
 
-        * **Esc**退出底线命令模式
+        * **Esc** 退出底线命令模式
 
       * 一般模式切换编辑模式
       

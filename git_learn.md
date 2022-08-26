@@ -70,13 +70,17 @@ provide shell access.
 ###Branch 相关
 ####查看本地分支
 `git branch`.
+
 ![](/img/branch-1.png)
 
 ####查看远程分支
 `git branch -r`,`-r `表示` remote`.
+
 ![](/img/branch-2.png)
+
 ####查看所有分支
 `git branch -a`
+
 ![](/img/branch-3.png)
 
 ###Config 相关
@@ -97,7 +101,9 @@ git config --local --list
 ###远程仓库相关
 ####检查远程地址
 `git remote -v`
+
 ![](/img/config-2.png)
+
 ####git修改远程仓库（未尝试）
 #####修改命令
 `git remote set-url origin [url]`

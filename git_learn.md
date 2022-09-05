@@ -232,6 +232,7 @@
    * Push的时候出现这个`error: failed to push some refs to`
      * 远程库与本地库代码不一致导致的，我们只要把远程库同步到本地库即可，使用如下命令：`git pull --rebase origin master`，指令意思就是把远程库中的跟新合并到本地库中（可能存在冲突需要解决），`--rebase`的作用是取消本地库中刚刚提交的commit，并把他们接到更新后的版本库中。
      * 使用如下命令，将commit的代码撤回，然后再git pull也行：`git reset --soft HEAD^`，`HEAD^`的意思是上一个版本，也可以写成`HEAD~1`，如果你进行了2次commit，想都撤回，可以使用`HEAD~2`。
+     * 实际测试里，刚刚进行pull命令拉取库，然后Push也会报错，是因为没有建立本地分支，无法匹配，进行如下操作：`git branch -M main`即可。
 
 
 

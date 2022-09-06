@@ -42,3 +42,22 @@ wget -N https://git.io/aria2.sh && chmod +x aria2.sh && bash aria2.sh
 
 关于BT-Tracker：
 
+`https://trackerslist.com` 这个是个独立项目也提供更新，如果github访问慢可以使用这个
+一般只需要将上面两个项目提供的trackers_best.txt文件的地址配置到aria2.conf的bt-tracker=的后面就可以加速，如果速度还是没有，也可将trackers_all.txt添加到bt-tracker=后面。
+
+上面的方法需要复制trackers_best.txt中的地址到aria2.conf配置文件 中，这边提供一个脚本来自动执行，新建文件updateTracker.sh，将下面内复制进去，`chmod +x updateTracker.sh`增加执行权限，`./updateTracker.sh`地址就配置成功了，重启aria2，就可以下载了。
+
+```shell
+#!/bin/bash
+list=`wget -qO- https://trackerslist.com/all.txt|awk NF|sed ":a;N;s/\n/,/g;ta"`
+if [ -z "`grep "bt-tracker" /root/.aria2/aria2.conf`" ]; then
+    sed -i '$a bt-tracker='${list} /root/.aria2/aria2.conf
+    echo add......
+else
+    sed -i "s@bt-tracker=.*@bt-tracker=$list@g" /root/.aria2/aria2.conf
+    echo update......
+fi
+```
+
+
+

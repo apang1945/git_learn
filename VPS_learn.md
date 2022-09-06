@@ -40,7 +40,7 @@ wget -N https://git.io/aria2.sh && chmod +x aria2.sh && bash aria2.sh
 
 ![](/img/Aria2-1.png)
 
-关于BT-Tracker：
+关于BT-Tracker：（下载没有速度多半是因为BT-Tracker）
 
 `https://trackerslist.com` 这个是个独立项目也提供更新，如果github访问慢可以使用这个
 一般只需要将上面两个项目提供的trackers_best.txt文件的地址配置到aria2.conf的bt-tracker=的后面就可以加速，如果速度还是没有，也可将trackers_all.txt添加到bt-tracker=后面。
@@ -59,5 +59,8 @@ else
 fi
 ```
 
+## PuTTY 使用
 
+* 如何使用PuTTY保存一个VPS的账号密码
 
+  在Windows的桌面右键PuTTY，选择属性，修改目标为"C:\Program Files\PuTTY\putty.exe" -ssh -l root -pw xxx -P 22 xx.xx.xx.xx

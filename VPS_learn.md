@@ -50,11 +50,11 @@ wget -N https://git.io/aria2.sh && chmod +x aria2.sh && bash aria2.sh
 ```shell
 #!/bin/bash
 list=`wget -qO- https://trackerslist.com/all.txt|awk NF|sed ":a;N;s/\n/,/g;ta"`
-if [ -z "`grep "bt-tracker" /root/.aria2/aria2.conf`" ]; then
-    sed -i '$a bt-tracker='${list} /root/.aria2/aria2.conf
+if [ -z "`grep "bt-tracker" /root/.aria2c/aria2.conf`" ]; then
+    sed -i '$a bt-tracker='${list} /root/.aria2c/aria2.conf
     echo add......
 else
-    sed -i "s@bt-tracker=.*@bt-tracker=$list@g" /root/.aria2/aria2.conf
+    sed -i "s@bt-tracker=.*@bt-tracker=$list@g" /root/.aria2c/aria2.conf
     echo update......
 fi
 ```
@@ -64,3 +64,21 @@ fi
 * 如何使用PuTTY保存一个VPS的账号密码
 
   在Windows的桌面右键PuTTY，选择属性，修改目标为"C:\Program Files\PuTTY\putty.exe" -ssh -l root -pw xxx -P 22 xx.xx.xx.xx
+
+
+
+
+
+
+
+
+
+## Ubuntu安装yum报错
+
+* 安装报错E: Unable to locate package，解决办法如下：
+
+  ![](/img/yum-1.png)
+
+  首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
+
+  更换源`sudo vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)，然后在第一行添加镜像

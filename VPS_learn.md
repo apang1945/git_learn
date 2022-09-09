@@ -81,4 +81,18 @@ fi
 
   首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
 
-  更换源`sudo vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)，然后在第一行添加镜像
+  更换源`vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)然后在第一行添加镜像`deb http://archive.ubuntu.com/ubuntu/ trusty main universe restricted multiverse`
+  
+  最终sources.list文件如下：
+  
+  ![](/img/yum-2.png)
+  
+  然后更新源，并安装yum
+  
+  ```shell
+  apt-get update
+  apt-get install yum
+  ```
+  
+  会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum `，安装结束后检查是否安装成功，运行`yum --version`即可。
+

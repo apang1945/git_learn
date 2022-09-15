@@ -96,3 +96,12 @@ fi
   
   会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum `，安装结束后检查是否安装成功，运行`yum --version`即可。
 
+## VPS安装Nodejs和Yarn
+- 以 sudo 用户身份运行下面的命令，下载并执行 NodeSource 安装脚本
+`curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - `
+这个脚本将会添加 NodeSource 的签名 key 到你的系统，创建一个 apt 源文件，安装必备的软件包，并且刷新 apt 缓存。 如果你需要另外的 Node.js 版本，例如`12.x`，将`setup_14.x`修改为`setup_12.x`。
+- NodeSource 源启用成功后，安装 Node.js 和 npm：
+`sudo apt install nodejs`
+nodejs 软件包同时包含node和npm二进制包
+- 验证 Node.js 和 npm 是否正确安装。打印它们的版本号：
+输入`node --version`结果为`v14.2.0`

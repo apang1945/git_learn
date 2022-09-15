@@ -105,3 +105,11 @@ fi
 nodejs 软件包同时包含node和npm二进制包
 - 验证 Node.js 和 npm 是否正确安装。打印它们的版本号：
 输入`node --version`结果为`v14.2.0`
+
+接下来是安装yarn
+```
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo ”deb https://dl.yarnpkg.com/debian/ stable main“ | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn
+yarn --version
+```

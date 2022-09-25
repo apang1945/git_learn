@@ -113,3 +113,13 @@ echo ”deb https://dl.yarnpkg.com/debian/ stable main“ | sudo tee /etc/apt/so
 sudo apt update && sudo apt install yarn
 yarn --version
 ```
+
+## Docker的安装与卸载
+卸载docker
+`sudo apt-get remove docker docker-engine docker.io containerd runc`
+一键安装Docker
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+[其他Docker安装](https://docs.docker.com/engine/install)

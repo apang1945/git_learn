@@ -114,6 +114,8 @@ sudo apt update && sudo apt install yarn
 yarn --version
 ```
 
+
+
 ## Docker的安装与卸载
 卸载docker
 `sudo apt-get remove docker docker-engine docker.io containerd runc`
@@ -123,3 +125,72 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 [其他Docker安装](https://docs.docker.com/engine/install)
+
+
+
+## Docker相关问题及解决方法
+
+1. 删除容器报错image is being used by stopped container eca596ce0f9d
+
+   该报错的原因是要删除的该镜像,被某个容器所引用
+
+   首先查看所有的容器,包括未运行的容器
+
+   `docker ps -a`运行结果如下
+
+   ![](/img/docker-images-1.png)
+
+   然后执行命令`docker rm <容器ID>`，`docker rmi <镜像ID>`
+
+   ![](/img/docker-images-2.png)
+
+   这样就可以删除被容器引用的镜像了。
+
+   执行`docker image ls`列举容器所包含的镜像
+
+   ![](/img/docker-images-3.png)
+
+   执行`docker image rm 56d`删除镜像
+
+   ![](/img/docker-images-4.png)
+
+   扩展：如果要删除本地的镜像，可以使用 docker image rm 命令，其格式为：`docker image rm [选项] <镜像1> [<镜像2> ...]`，其中，`<镜像>` 可以是`镜像短ID`、`镜像长ID`、`镜像名` 或者 `镜像摘要`。
+
+   我们可以用镜像的完整 ID，也称为 `长 ID`，来删除镜像。使用脚本的时候可能会用`长 ID`，但是人工输入就太累了，所以更多的时候是用 `短 ID` 来删除镜像。`docker image ls` 默认列出的就已经是短 ID 了，一般取前3个字符以上，只要足够区分于别的镜像就可以了。
+
+   所以删除一个镜像可以使用以下命令：`docker image rm 501`或者`docker image rm centos`或者再精确一些docker image ls --digests，之后执行`docker image rm (name@digest)`。
+
+   此外可以成批删除镜像，比如可以使用 `docker image ls -q` 来配合使用 `docker image rm`，这样可以成批的删除希望删除的镜像。
+
+   比如，我们需要删除所有仓库名为 `redis` 的镜像：
+
+   `docker image rm $(docker image ls -q redis)`
+
+   或者删除所有在 `mongo:3.2` 之前的镜像：
+
+   `docker image rm $(docker image ls -q -f before=mongo:3.2)`
+
+   
+
+## Lunix放行指定端口
+
+1. 查看防火墙状态
+
+   `firewall-cmd --state` running代表防火墙正在运行中,如果防火墙处在关闭状态,则运行下面命令开启防火墙`systemctl start firewalld.service`
+
+2. 查看某个端口是否放行
+
+   `firewall-cmd --query-port=端口号/tcp`
+
+3. 放行指定端口
+
+   `firewall-cmd --zone=public --add-port=8080/tcp --permanent`
+
+4. 重启防火墙和重新载入配置
+
+   `systemctl restart firewalld.service`
+
+   `firewall-cmd --reload`
+
+
+

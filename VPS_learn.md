@@ -183,6 +183,4 @@ sh get-docker.sh
    
    `firewall-cmd --reload`
 
-<div align=center>![](/img/docker-images-4.png)
-
 

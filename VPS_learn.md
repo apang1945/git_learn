@@ -1,6 +1,8 @@
-# VPS扩展
+# VPS学习
 
-## simplefileserver
+## VPS扩展
+
+### simplefileserver
 
 simplefileserver是一款可以将VPS里的文件通过网页的方式展现出来并用来实现下载的一个插件。以下是如何运行：
 
@@ -28,7 +30,7 @@ serving on 0.0.0.0:7090 view at http://127.0.0.1:7090
 
 然后通过ip:8080访问
 
-## Aria2
+### Aria2
 
 一键操作如下
 
@@ -119,7 +121,22 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-[其他Docker安装](https://docs.docker.com/engine/install)
+Ubuntu 和 Debian 系统：
+
+`curl -sSL https://get.docker.com/ | sh`
+
+其他方式：
+
+```bash
+# 阿里云
+curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+#DaoCloud
+curl -sSL https://get.daocloud.io/docker | sh
+```
+
+[其他Docker安装1](https://docs.docker.com/engine/install)
+
+[其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
 
 ## Docker相关问题及解决方法
 
@@ -183,4 +200,17 @@ sh get-docker.sh
    
    `firewall-cmd --reload`
 
+## VPS常见问题解决
 
+- ### E: 仓库 “xxx” 没有 Release 文件
+  
+  首先直接输入`cd /etc/apt/sources.list.d`
+  
+  因为报错是（E: 仓库 “…/bzindovic/… Release” 没有 Release 文件
+  ），应该更改 sources.list.d 里的“bzindovic”，在/etc/apt/sources.list.d 的路径下，输入ls 查看文件目录，找到需要删除的文件
+  
+  在终端输入`sudo mv 要更改的文件.list + 要更改的文件.list.bak` （而不是输入sudo mv 要更改的文件.list.bak ）
+  
+  例如：` sudo mv bzindovic-ubuntu-suitesparse-bugfix-1319687-bionic.list   bzindovic-ubuntu-suitesparse-bugfix-1319687-bionic.list.bak`
+  
+  然后再运行`sudo apt-get update `就不会报错了

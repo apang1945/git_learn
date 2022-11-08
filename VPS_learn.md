@@ -69,46 +69,107 @@ fi
 
 ## Ubuntu安装yum报错
 
-* 安装报错E: Unable to locate package，解决办法如下：
-  
-  ![](/img/yum-1.png)
-  
-  首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
-  
-  更换源`vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)然后在第一行添加镜像`deb http://archive.ubuntu.com/ubuntu/ trusty main universe restricted multiverse`
-  
-  最终sources.list文件如下：
-  
-  ![](/img/yum-2.png)
-  
-  然后更新源，并安装yum
-  
-  ```shell
-  apt-get update
-  apt-get install yum
-  ```
-  
-  会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum `，安装结束后检查是否安装成功，运行`yum --version`即可。
+安装报错E: Unable to locate package，解决办法如下：
 
-## VPS安装Nodejs和Yarn
+![](/img/yum-1.png)
 
+首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
+
+更换源`vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)然后在第一行添加镜像`deb http://archive.ubuntu.com/ubuntu/ trusty main universe restricted multiverse`
+
+最终sources.list文件如下：
+
+![](/img/yum-2.png)
+
+然后更新源，并安装yum
+
+```shell
+apt-get update
+apt-get install yum
+```
+
+会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum `，安装结束后检查是否安装成功，运行`yum --version`即可。
+
+## VPS安装依赖和插件
+
+1. **Nodejs和Yarn**
 - 以 sudo 用户身份运行下面的命令，下载并执行 NodeSource 安装脚本
   `curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - `
-  这个脚本将会添加 NodeSource 的签名 key 到你的系统，创建一个 apt 源文件，安装必备的软件包，并且刷新 apt 缓存。 如果你需要另外的 Node.js 版本，例如`12.x`，将`setup_14.x`修改为`setup_12.x`。
+  这个脚本将会添加 NodeSource 的签名 key 到你的系统，创建一个 apt 源文件，安装必备的软件包，并且刷新 apt 缓存。 如果你需要另外的 Node.js 版本，例如`12.x`，将`setup_14.x`修改为`setup_12.x`即可。
+
 - NodeSource 源启用成功后，安装 Node.js 和 npm：
   `sudo apt install nodejs`
   nodejs 软件包同时包含node和npm二进制包
+
 - 验证 Node.js 和 npm 是否正确安装。打印它们的版本号：
   输入`node --version`结果为`v14.2.0`
 
-接下来是安装yarn
+- 接下来是安装yarn
+  
+  ```bash
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo ”deb https://dl.yarnpkg.com/debian/ stable main“ | sudo tee /etc/apt/sources.list.d/yarn.list
+  sudo apt update && sudo apt install yarn
+  yarn --version
+  ```
+2. **Centos7最小系统安装vim**
+- 输入vim显示未找到命令，接下来要查询vim的包
 
-```
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo ”deb https://dl.yarnpkg.com/debian/ stable main“ | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt update && sudo apt install yarn
-yarn --version
-```
+- 输入`rpm -qa|grep vim`
+  
+  ![](/img/vim-install-1.png)
+
+- 缺少几个可以使用`yum -y install vim-enhanced`，缺少较多使用`yum -y install vim*`，安装完成后就能使用vim了。可以对vim进行配置，如果想要对所有用户生效则使用全局配置，编辑`/etc/vimrc`配置文件即可。
+
+- 简单配置如下：
+  
+  ```bash
+  set encoding=utf-8      " 设定vim缓冲区以及界面的字符编码为utf-8
+  set terencoding=utf-8  " 设定终端使用的字符编码为utf-8
+  set fileencodings=utf-8,gbk,latin1      " 设定磁盘文件的字符编码优先为utf-8
+  set nocompatible        " 关闭vi兼容模式
+  set number              " 设定显示行号
+  set ruler               " 设定在状态栏显示光标所在的行数等信息
+  set cursorline          " 设定光标线突出显示当前行
+  set showmode            " 设定在命令行界面最下面显示当前模式
+  set showcmd             " 设定显示输入的命令
+  set shiftwidth=4        " 设定<<和>>命令移动4个空格
+  set softtabstop=4       " 设定退格键时一次删除4个空格
+  set tabstop=4           " 设定tab为4个空格
+  set autoindent          " 继承前一行的缩进方式，适用于多行注释
+  set autochdir           " 设定自动切换当前目录为当前文件所在的目录
+  set ignorecase          " 设定搜索的时忽略大小写
+  set nowrapscan          " 禁止在搜索到文件两端时重新搜索
+  set incsearch           " 输入搜索内容时就显示搜索结果
+  set hlsearch            " 搜索时高亮显示被找到的文本
+  set smartindent         " 设定开启新行时使用智能自动缩进
+  set completeopt=preview,menu    " 设定代码补全
+  set noerrorbells        " 设定关闭错误响铃
+  set nobackup            " 设定不使用备份
+  ```
+3. **Centos7更新Git版本**
+- 安装依赖包
+  
+  ```bash
+  yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc -y
+  yum install  gcc perl-ExtUtils-MakeMaker -y
+  ```
+
+- 卸载旧版本`yum remove git`，git源码包[下载地址](https://mirrors.edge.kernel.org/pub/software/scm/git/)
+
+- 打开用于存放下载的git包的文件夹`cd /usr/local/src/`
+
+- 下载git压缩包`wget xxx（git-download-link）`
+
+- 解压压缩包`tar -xvf git-2.xx.x.tar.xz`，并打开`cd git-2.xx.x`
+
+- 编译并安装`make prefix=/usr/local/git all`，`make prefix=/usr/local/git install`
+
+- 配置环境变量
+  
+  `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
+
+- 随后验证git版本即可。
 
 ## Docker的安装与卸载
 
@@ -200,9 +261,9 @@ curl -sSL https://get.daocloud.io/docker | sh
    
    `firewall-cmd --reload`
 
-## VPS常见问题解决
+## VPS常见错误解决
 
-- ### E: 仓库 “xxx” 没有 Release 文件
+- E: 仓库 “xxx” 没有 Release 文件 
   
   首先直接输入`cd /etc/apt/sources.list.d`
   
@@ -214,3 +275,11 @@ curl -sSL https://get.daocloud.io/docker | sh
   例如：` sudo mv bzindovic-ubuntu-suitesparse-bugfix-1319687-bionic.list   bzindovic-ubuntu-suitesparse-bugfix-1319687-bionic.list.bak`
   
   然后再运行`sudo apt-get update `就不会报错了
+
+- /bin/sh  cc:  未找到命令
+  
+  失败原因是未安装gcc
+  
+  `yum install gcc-c++ -y`
+
+- 

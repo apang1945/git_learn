@@ -280,6 +280,4 @@ curl -sSL https://get.daocloud.io/docker | sh
   
   失败原因是未安装gcc
   
-  `yum install gcc-c++ -y`
-
-- 
+  解决办法：`yum install gcc-c++ -y`

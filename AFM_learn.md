@@ -95,7 +95,7 @@ $U_{LJ}=-4\varepsilon[({\sigma \over z})^6-({\sigma \over z})^{12}]$
 
 CVD生长过程
 
-<img title="" src="file:///afmpics/CVD.png" alt="" width="352">
+![](/afmpics/CVD.png)
 
 ### 探针分类
 

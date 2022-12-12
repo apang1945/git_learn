@@ -1,5 +1,3 @@
-
-
 # VPS学习
 
 ## VPS扩展
@@ -267,7 +265,7 @@ curl -sSL https://get.daocloud.io/docker | sh
    
    - `curl -S https://myip.ipip.net/`这个指令可以用来查询机器的IP以及所在位置
      
-     ![]()
+     ![](/img/ip-test.png)
    
    - 然后`cp config.yaml.example config.yaml`，这条指令的意思就是创建一个`config.yaml.example`和`config.yaml`，这个用来存放OpenAI的账号的相关信息，例子如下：
      

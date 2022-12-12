@@ -1,3 +1,5 @@
+
+
 # VPS学习
 
 ## VPS扩展
@@ -60,6 +62,26 @@ else
     echo update......
 fi
 ```
+
+### V2Ray搭建
+
+使用一键安装脚本，输入`bash <(curl -s -L https://git.io/v2ray.sh)`
+
+如果报错`unzip: 未找到命令`,输入``yum install -y unzip zip`安装即可。
+
+1. 传输协议默认的 `TCP` 即可；
+
+2. 端口号自己随意设置；
+
+3. 选择广告拦截，建议不要开启，开启广告拦截会消耗服务器资源；
+
+4. 选择开启SS：建议开启；
+
+5. 选择 SS 端口号：依然自己随意设置，但不可以和上面的 V2Ray 端口号一样；
+
+6. 选择 SS 加密协议：一般选择`chacha20-itef-poly1305`；
+
+7. 之后按两次回车即可
 
 ## PuTTY 使用
 
@@ -240,6 +262,31 @@ curl -sSL https://get.daocloud.io/docker | sh
    或者删除所有在 `mongo:3.2` 之前的镜像：
    
    `docker image rm $(docker image ls -q -f before=mongo:3.2)`
+
+2. Docker在部署Wechat-chatgpt的时候遇到的问题以及遇到的一些事情
+   
+   - `curl -S https://myip.ipip.net/`这个指令可以用来查询机器的IP以及所在位置
+     
+     ![]()
+   
+   - 然后`cp config.yaml.example config.yaml`，这条指令的意思就是创建一个`config.yaml.example`和`config.yaml`，这个用来存放OpenAI的账号的相关信息，例子如下：
+     
+     ```yaml
+     chatGPTAccountPool:
+       -  session_token: xxx
+     chatPrivateTiggerKeyword: ""
+     openAIProxy: ""
+     clearanceToken: "xxx"
+     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" 
+     ```
+     
+     这些相关的参数在[OpenAI](https://chat.openai.com/chat)，登录账号之后，按F12打开开发者模式，选择应用，找到cookies，然后查找相关的数据。还有一个操作是`cat`指令，查看文件内容。
+     
+     `docker build . -t wechat-chatgpt_local:1.2.2`，这条指令的意思是构建镜像，`-t`的意思是添加标签，这里我们添加的标签是`wechat-chatgpt_local:1.2.2`，`.`的含义是表示当前目录，典型用法如下：`docker build -t ImageName:TagName dir`
+   
+   - 之后执行`docker-compose down&& docker-compose up -d`这条指令是用来更新容器的。
+   
+   - 执行`dockers logs -f xxx`可以查看xxx容器的输出日志。
 
 ## Lunix放行指定端口
 

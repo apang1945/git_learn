@@ -39,7 +39,7 @@
      
      - 在配置某个配置之前，可以先查看一下目前默认的是否开启，如果开启就不用配置了。具体查看方法是，在normal模式下，输入该配置，并加上“？”回车。例如：`:set number?`表示查看是否设置行号。
      
-     - 基本配置在[这里](123)
+     - 基本配置在[这里](/tips/_vimrc)
    
    - 安装vundle插件
      
@@ -47,6 +47,6 @@
      
      `git clone https://github.com/VundleVim/Vundle.vim.git C:\Program Files\Vim\vimfiles\bundle`
      
-     在`_vimrc`中添加这些[内容](123)，依次安装各个常用插件，具体操作详情参考[这里](https://blog.csdn.net/qyhaill/article/details/99701566)。
+     在`_vimrc`中添加这些[内容](/tips/vim_plugin.txt)，依次安装各个常用插件，具体操作详情参考[这里](https://blog.csdn.net/qyhaill/article/details/99701566)。
      
      在cmd打开vim，并执行`:PluginInstall`安装插件。如果遇到提示`:PluginInstall`不是命令的错误，尝试把上面第二行`set rtp +=`后面的内容改为绝对路径。

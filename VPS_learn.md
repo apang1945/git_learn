@@ -120,55 +120,57 @@
 
 - 缺少几个可以使用`yum -y install vim-enhanced`，缺少较多使用`yum -y install vim*`，安装完成后就能使用vim了。可以对vim进行配置，如果想要对所有用户生效则使用全局配置，编辑`/etc/vimrc`配置文件即可。
 
-- 简单配置如下：
-  
-  ```bash
-  set encoding=utf-8      " 设定vim缓冲区以及界面的字符编码为utf-8
-  set terencoding=utf-8  " 设定终端使用的字符编码为utf-8
-  set fileencodings=utf-8,gbk,latin1      " 设定磁盘文件的字符编码优先为utf-8
-  set nocompatible        " 关闭vi兼容模式
-  set number              " 设定显示行号
-  set ruler               " 设定在状态栏显示光标所在的行数等信息
-  set cursorline          " 设定光标线突出显示当前行
-  set showmode            " 设定在命令行界面最下面显示当前模式
-  set showcmd             " 设定显示输入的命令
-  set shiftwidth=4        " 设定<<和>>命令移动4个空格
-  set softtabstop=4       " 设定退格键时一次删除4个空格
-  set tabstop=4           " 设定tab为4个空格
-  set autoindent          " 继承前一行的缩进方式，适用于多行注释
-  set autochdir           " 设定自动切换当前目录为当前文件所在的目录
-  set ignorecase          " 设定搜索的时忽略大小写
-  set nowrapscan          " 禁止在搜索到文件两端时重新搜索
-  set incsearch           " 输入搜索内容时就显示搜索结果
-  set hlsearch            " 搜索时高亮显示被找到的文本
-  set smartindent         " 设定开启新行时使用智能自动缩进
-  set completeopt=preview,menu    " 设定代码补全
-  set noerrorbells        " 设定关闭错误响铃
-  set nobackup            " 设定不使用备份
-  ```
+- 简单配置在[这里](/tips/_vimrc)。
 3. **Centos7更新Git版本**
-- 安装依赖包
+- 方法一：
   
-  ```bash
-  yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc -y
-  yum install  gcc perl-ExtUtils-MakeMaker -y
-  ```
-
-- 卸载旧版本`yum remove git`，git源码包[下载地址](https://mirrors.edge.kernel.org/pub/software/scm/git/)
-
-- 打开用于存放下载的git包的文件夹`cd /usr/local/src/`
-
-- 下载git压缩包`wget xxx（git-download-link）`
-
-- 解压压缩包`tar -xvf git-2.xx.x.tar.xz`，并打开`cd git-2.xx.x`
-
-- 编译并安装`make prefix=/usr/local/git all`，`make prefix=/usr/local/git install`
-
-- 配置环境变量
+  - 安装依赖包
+    
+    ```bash
+    yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc -y
+    yum install  gcc perl-ExtUtils-MakeMaker -y
+    ```
   
-  `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
+  - 卸载旧版本`yum remove git`，git源码包[下载地址](https://mirrors.edge.kernel.org/pub/software/scm/git/)
+  
+  - 打开用于存放下载的git包的文件夹`cd /usr/local/src/`
+  
+  - 下载git压缩包`wget xxx（git-download-link）`
+  
+  - 解压压缩包`tar -xvf git-2.xx.x.tar.xz`，并打开`cd git-2.xx.x`
+  
+  - 编译并安装`make prefix=/usr/local/git all`，`make prefix=/usr/local/git install`
+  
+  - 配置环境变量
+    
+    `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
+  
+  - 随后验证git版本即可。
 
-- 随后验证git版本即可。
+- 方法二：
+  
+  - 首先移除旧版本的Git
+    
+    ```bash
+    sudo yum remove git* // 删除所有git相关
+    或
+    sudo yum remove git // 只删除Git
+    ```
+  
+  - 之后安装相关的**RPM仓库**，运行如下命令：
+    
+    ```bash
+    sudo yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.7-1.x86_64.rpm
+    ```
+  
+  - 之后安装并验证版本即可
+    
+    ```bash
+    yum install git
+    git --version
+    #结果是
+    git version 2.38.1
+    ```
 4. **Docker和Docker-compose的安装与卸载**
 - 安装Docker：
   

@@ -1,91 +1,91 @@
 # VPS学习
 
+---
+
 ## 软件和环境的搭建
 
-### simplefileserver
+1. **simplefileserver**
+   
+   simplefileserver是一款可以将VPS里的文件通过网页的方式展现出来并用来实现下载的一个插件。以下是如何运行：
+   
+   ```shell
+   root@mao:~# sudo apt-get install python-setuptools
+   
+   root@mao:~# pip install simplefileserver
+   
+   root@mao:~# simplefileserver
+   Bottle v0.12.16 server starting up (using PasteServer())...
+   Listening on http://0.0.0.0:8080/
+   Hit Ctrl-C to quit.
+   
+   serving on 0.0.0.0:8080 view at http://127.0.0.1:8080
+   ////////////非必须
+   root@mao:~# simplefileserver 7090
+   Bottle v0.12.16 server starting up (using PasteServer())...
+   Listening on http://0.0.0.0:7090/
+   Hit Ctrl-C to quit.
+   
+   serving on 0.0.0.0:7090 view at http://127.0.0.1:7090
+   
+   ///////////
+   ```
+   
+   然后通过ip:8080访问
 
-simplefileserver是一款可以将VPS里的文件通过网页的方式展现出来并用来实现下载的一个插件。以下是如何运行：
+2. **Aria2**
+   
+   一键操作如下
+   
+   ```shell
+   wget -N https://git.io/aria2.sh && chmod +x aria2.sh && bash aria2.sh
+   ```
+   
+   效果如下：
+   
+   关于BT-Tracker：（下载没有速度多半是因为BT-Tracker）
+   
+   `https://trackerslist.com` 这个是个独立项目也提供更新，如果github访问慢可以使用这个
+   一般只需要将上面两个项目提供的trackers_best.txt文件的地址配置到aria2.conf的bt-tracker=的后面就可以加速，如果速度还是没有，也可将trackers_all.txt添加到bt-tracker=后面。
+   
+   上面的方法需要复制trackers_best.txt中的地址到aria2.conf配置文件 中，这边提供一个脚本来自动执行，新建文件updateTracker.sh，将下面内复制进去，`chmod +x updateTracker.sh`增加执行权限，`./updateTracker.sh`地址就配置成功了，重启aria2，就可以下载了。
+   
+   ```shell
+   #!/bin/bash
+   list=`wget -qO- https://trackerslist.com/all.txt|awk NF|sed ":a;N;s/\n/,/g;ta"`
+   if [ -z "`grep "bt-tracker" /root/.aria2c/aria2.conf`" ]; then
+       sed -i '$a bt-tracker='${list} /root/.aria2c/aria2.conf
+       echo add......
+   else
+       sed -i "s@bt-tracker=.*@bt-tracker=$list@g" /root/.aria2c/aria2.conf
+       echo update......
+   fi
+   ```
 
-```shell
-root@mao:~# sudo apt-get install python-setuptools
+3. **V2Ray搭建**
+   
+   使用一键安装脚本，输入`bash <(curl -s -L https://git.io/v2ray.sh)`
+   
+   如果报错`unzip: 未找到命令`,输入``yum install -y unzip zip`安装即可。
+   
+   1. 传输协议默认的 `TCP` 即可；
+   
+   2. 端口号自己随意设置；
+   
+   3. 选择广告拦截，建议不要开启，开启广告拦截会消耗服务器资源；
+   
+   4. 选择开启SS：建议开启；
+   
+   5. 选择 SS 端口号：依然自己随意设置，但不可以和上面的 V2Ray 端口号一样；
+   
+   6. 选择 SS 加密协议：一般选择`chacha20-itef-poly1305`；
+   
+   7. 之后按两次回车即可
 
-root@mao:~# pip install simplefileserver
-
-root@mao:~# simplefileserver
-Bottle v0.12.16 server starting up (using PasteServer())...
-Listening on http://0.0.0.0:8080/
-Hit Ctrl-C to quit.
-
-serving on 0.0.0.0:8080 view at http://127.0.0.1:8080
-////////////非必须
-root@mao:~# simplefileserver 7090
-Bottle v0.12.16 server starting up (using PasteServer())...
-Listening on http://0.0.0.0:7090/
-Hit Ctrl-C to quit.
-
-serving on 0.0.0.0:7090 view at http://127.0.0.1:7090
-
-///////////
-```
-
-然后通过ip:8080访问
-
-### Aria2
-
-一键操作如下
-
-```shell
-wget -N https://git.io/aria2.sh && chmod +x aria2.sh && bash aria2.sh
-```
-
-效果如下：
-
-![](/img/Aria2-1.png)
-
-关于BT-Tracker：（下载没有速度多半是因为BT-Tracker）
-
-`https://trackerslist.com` 这个是个独立项目也提供更新，如果github访问慢可以使用这个
-一般只需要将上面两个项目提供的trackers_best.txt文件的地址配置到aria2.conf的bt-tracker=的后面就可以加速，如果速度还是没有，也可将trackers_all.txt添加到bt-tracker=后面。
-
-上面的方法需要复制trackers_best.txt中的地址到aria2.conf配置文件 中，这边提供一个脚本来自动执行，新建文件updateTracker.sh，将下面内复制进去，`chmod +x updateTracker.sh`增加执行权限，`./updateTracker.sh`地址就配置成功了，重启aria2，就可以下载了。
-
-```shell
-#!/bin/bash
-list=`wget -qO- https://trackerslist.com/all.txt|awk NF|sed ":a;N;s/\n/,/g;ta"`
-if [ -z "`grep "bt-tracker" /root/.aria2c/aria2.conf`" ]; then
-    sed -i '$a bt-tracker='${list} /root/.aria2c/aria2.conf
-    echo add......
-else
-    sed -i "s@bt-tracker=.*@bt-tracker=$list@g" /root/.aria2c/aria2.conf
-    echo update......
-fi
-```
-
-### V2Ray搭建
-
-使用一键安装脚本，输入`bash <(curl -s -L https://git.io/v2ray.sh)`
-
-如果报错`unzip: 未找到命令`,输入``yum install -y unzip zip`安装即可。
-
-1. 传输协议默认的 `TCP` 即可；
-
-2. 端口号自己随意设置；
-
-3. 选择广告拦截，建议不要开启，开启广告拦截会消耗服务器资源；
-
-4. 选择开启SS：建议开启；
-
-5. 选择 SS 端口号：依然自己随意设置，但不可以和上面的 V2Ray 端口号一样；
-
-6. 选择 SS 加密协议：一般选择`chacha20-itef-poly1305`；
-
-7. 之后按两次回车即可
-
-### PuTTY 使用
-
-* 如何使用PuTTY保存一个VPS的账号密码
-  
-  在Windows的桌面右键PuTTY，选择属性，修改目标为"C:\Program Files\PuTTY\putty.exe" -ssh -l root -pw xxx -P 22 xx.xx.xx.xx
+4. **PuTTY 使用**
+   
+   - 如何使用PuTTY保存一个VPS的账号密码
+     
+     在Windows的桌面右键PuTTY，选择属性，修改目标为"C:\Program Files\PuTTY\putty.exe" -ssh -l root -pw xxx -P 22 xx.xx.xx.xx
 
 ---
 
@@ -169,31 +169,90 @@ fi
   `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
 
 - 随后验证git版本即可。
-3. **Docker的安装与卸载**
+4. **Docker和Docker-compose的安装与卸载**
+- 安装Docker：
+  
+  ```bash
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  或者
+  wget -qO- get.docker.com | bash
+  
+  sh get-docker.sh
+  docker -v #查看Docker版本
+  systemctl enable docker #Docker开机启动
+  ```
+  
+  Ubuntu 和 Debian 系统：
+  
+  `curl -sSL https://get.docker.com/ | sh`
+  
+  其他方式：
+  
+  ```bash
+  # 阿里云
+  curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+  #DaoCloud
+  curl -sSL https://get.daocloud.io/docker | sh
+  ```
+  
+  [其他Docker安装1](https://docs.docker.com/engine/install)
+  
+  [其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
+
+- 卸载docker
+  
+  ```bash
+  sudo apt-get remove docker docker-engine docker.io containerd runc
+  或者以下命令
+  sudo apt-get purge docker-ce docker-ce-cli containerd.io
+  sudo rm -rf /var/lib/docker
+  sudo rm -rf /var/lib/containerd
+  ```
+
+- 安装docker-compose
+  
+  ```bash
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  docker-compose --version
+  ```
+5. **Centos7开启BBR加速**
    
-   卸载docker `sudo apt-get remove docker docker-engine docker.io containerd runc` 一键安装Docker
+   - yum来更新系统版本`yum update`
    
-   ```
-   curl -fsSL https://get.docker.com -o get-docker.sh
-   sh get-docker.sh
-   ```
+   - 查看系统版本`cat /etc/redhat-release`
    
-   Ubuntu 和 Debian 系统：
+   - 安装elrepo并升级内核
+     
+     ```bash
+     rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+     rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+     yum --enablerepo=elrepo-kernel install kernel-ml -y
+     ```
    
-   `curl -sSL https://get.docker.com/ | sh`
+   - 更新grub文件并重启系统
+     
+     ```bash
+     egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \'
+     grub2-set-default 0
+     reboot
+     ```
    
-   其他方式：
+   - 开启BBR
+     
+     ```bash
+     nano /etc/sysctl.conf
+     #添加以下内容
+     net.core.default_qdisc=fq
+     net.ipv4.tcp_congestion_control=bbr
+     ```
    
-   ```bash
-   # 阿里云
-   curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
-   #DaoCloud
-   curl -sSL https://get.daocloud.io/docker | sh
-   ```
-   
-   [其他Docker安装1](https://docs.docker.com/engine/install)
-   
-   [其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
+   - 验证是否开启
+     
+     ```bash
+     lsmod | grep bbr  #返回tcp_bbr成功
+     lsmod | grep fq  #返回sch_fq成功
+     ```
 
 ---
 
@@ -287,6 +346,40 @@ fi
      `systemctl restart firewalld.service`
      
      `firewall-cmd --reload`
+   
+   - 查看端口是否被占用`lsof -i:xxx`，xxx是端口号。
+
+2. Luinx基本操作指令
+   
+   | 指令                                | 含义                                                               |
+   | --------------------------------- | ---------------------------------------------------------------- |
+   | `df -h`                           | 查看磁盘的剩余容量                                                        |
+   | `rm -rf xxx`                      | 强制递归删除文件夹                                                        |
+   | `touch`                           | touch命令用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件，**可以创建文件** |
+   | `mkdir`                           | 只能创建文件夹以及赋予相关的权限，**不可以创建文件**                                     |
+   | `hostnamectl`                     | 显示与设置主机名称,如果要查看系统的内核版本，可以`uname -r`                              |
+   | `hostname -I`或者`curl ifconfig.me` | 查看服务器的IP                                                         |
+   | `tar -zxvf xxx.tar`               | 解压压缩包，[常见指令](/tips/unzip-learn.md)                               |
+   | `tar cvfz xxx.tar`                | 打包压缩包如上                                                          |
+   | `mv a b`                          | 将a重命名为b                                                          |
+   | `scp A B`                         | 将A的文件传到B处                                                        |
+   |                                   |                                                                  |
+
+3. Docker基本操作指令
+   
+   | 指令                                                    | 含义                                                                                                                          |
+   | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+   | `docker run xxx`                                      | 运行一个镜像                                                                                                                      |
+   | `docker stop xxx`                                     | 停止一个容器                                                                                                                      |
+   | `dokcer rm xxx`                                       | 删除某个容器                                                                                                                      |
+   | `docker rmi xxx`                                      | 删除一个镜像                                                                                                                      |
+   | `docerk ps` or `docker ps -a`                         | 查看docker内容器                                                                                                                 |
+   | `docekr images`                                       | 查看docker内镜像                                                                                                                 |
+   | `docekr inspect xxx`                                  | 检查镜像的具体信息                                                                                                                   |
+   | `docekr run -d --name -v -p -it --volumes-from xxx  ` | -d的意思是后台运行；--name的意思是为容器命名；-v的意思是选择挂载卷；-p的意识是映射端口；-i和-t一般一起使用为-it，它的意思是以交互模式运行，并分配一个伪输入终端；--volumes-from xxx的意思是选择xxx（容器名）； |
+   |                                                       |                                                                                                                             |
+   |                                                       |                                                                                                                             |
+   |                                                       |                                                                                                                             |
 
 ---
 
@@ -353,3 +446,14 @@ fi
   **ps**将某个进程显示出来。
   
   **grep**命令是查找，是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。
+
+- **rm: cannot remove ‘xxx‘: Is a directory**
+  
+  文件或者目录不能删除
+  
+  使用以下指令：
+  
+  ```bash
+  rm -rf xxx #递归删除文件名或目录,-r是递归处理，就是一层一层的删,-f是强制删除
+  sudo rm -d #-d删除文件夹
+  ```

@@ -1,0 +1,57 @@
+" 插件管理
+set rtp+=$VIM\vimfiles\bundle\Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'zxqfl/tabnine-vim'
+call vundle#end()
+filetype plugin indent on
+
+" 各种插件的配置
+"
+"
+" NERD Commenter配置
+" 将leader从"\"改为","
+let mapleader = ","
+" 在注释符后面自动添加空格
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments：使用紧凑语法美化多行注释
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation:靠左对齐注释符，而不是跟随代码缩进
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region):允许注释和反注释空行（在注释多行代码时很有用）
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting:取消注释的同时删除当前行末尾的空格
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not:暂时不知道什么意思，作什么用途
+" let g:NERDToggleCheckAllLines = 1
+"
+"
+" NERDTree配置
+" 将F2设置为开关NERDTree的快捷键
+map <F2> :NERDTreeToggle<cr>
+" 修改树的显示图标
+" let g:NERDTreeDirArrowExpandable = '+'
+" let g:NERDTreeDirArrowCollapsible = '-'
+" 打开vim时如果没有文件自动打开NERDTree
+" autocmd vimenter * if !argc()|NERDTree|endif
+" 当NERDTree为剩下的唯一窗口时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"
+"
+" nerdtree-git-plugin配置
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",

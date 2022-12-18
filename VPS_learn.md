@@ -1,6 +1,6 @@
 # VPS学习
 
-## VPS扩展
+## 软件和环境的搭建
 
 ### simplefileserver
 
@@ -81,34 +81,13 @@ fi
 
 7. 之后按两次回车即可
 
-## PuTTY 使用
+### PuTTY 使用
 
 * 如何使用PuTTY保存一个VPS的账号密码
   
   在Windows的桌面右键PuTTY，选择属性，修改目标为"C:\Program Files\PuTTY\putty.exe" -ssh -l root -pw xxx -P 22 xx.xx.xx.xx
 
-## Ubuntu安装yum报错
-
-安装报错E: Unable to locate package，解决办法如下：
-
-![](/img/yum-1.png)
-
-首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
-
-更换源`vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)然后在第一行添加镜像`deb http://archive.ubuntu.com/ubuntu/ trusty main universe restricted multiverse`
-
-最终sources.list文件如下：
-
-![](/img/yum-2.png)
-
-然后更新源，并安装yum
-
-```shell
-apt-get update
-apt-get install yum
-```
-
-会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum `，安装结束后检查是否安装成功，运行`yum --version`即可。
+---
 
 ## VPS安装依赖和插件
 
@@ -190,38 +169,37 @@ apt-get install yum
   `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
 
 - 随后验证git版本即可。
+3. **Docker的安装与卸载**
+   
+   卸载docker `sudo apt-get remove docker docker-engine docker.io containerd runc` 一键安装Docker
+   
+   ```
+   curl -fsSL https://get.docker.com -o get-docker.sh
+   sh get-docker.sh
+   ```
+   
+   Ubuntu 和 Debian 系统：
+   
+   `curl -sSL https://get.docker.com/ | sh`
+   
+   其他方式：
+   
+   ```bash
+   # 阿里云
+   curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+   #DaoCloud
+   curl -sSL https://get.daocloud.io/docker | sh
+   ```
+   
+   [其他Docker安装1](https://docs.docker.com/engine/install)
+   
+   [其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
 
-## Docker的安装与卸载
-
-卸载docker
-`sudo apt-get remove docker docker-engine docker.io containerd runc`
-一键安装Docker
-
-```
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-```
-
-Ubuntu 和 Debian 系统：
-
-`curl -sSL https://get.docker.com/ | sh`
-
-其他方式：
-
-```bash
-# 阿里云
-curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
-#DaoCloud
-curl -sSL https://get.daocloud.io/docker | sh
-```
-
-[其他Docker安装1](https://docs.docker.com/engine/install)
-
-[其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
+---
 
 ## Docker相关问题及解决方法
 
-1. 删除容器报错image is being used by stopped container eca596ce0f9d
+1. **删除容器报错image is being used by stopped container eca596ce0f9d**
    
    该报错的原因是要删除的该镜像,被某个容器所引用
    
@@ -261,7 +239,7 @@ curl -sSL https://get.daocloud.io/docker | sh
    
    `docker image rm $(docker image ls -q -f before=mongo:3.2)`
 
-2. Docker在部署Wechat-chatgpt的时候遇到的问题以及遇到的一些事情
+2. **Docker在部署Wechat-chatgpt的总结**
    
    - `curl -S https://myip.ipip.net/`这个指令可以用来查询机器的IP以及所在位置
      
@@ -286,29 +264,35 @@ curl -sSL https://get.daocloud.io/docker | sh
    
    - 执行`dockers logs -f xxx`可以查看xxx容器的输出日志。
 
-## Lunix放行指定端口
+---
 
-1. 查看防火墙状态
-   
-   `firewall-cmd --state` running代表防火墙正在运行中,如果防火墙处在关闭状态,则运行下面命令开启防火墙`systemctl start firewalld.service`
+## VPS常见命令及操作
 
-2. 查看某个端口是否放行
+1. Lunix放行指定端口
    
-   `firewall-cmd --query-port=端口号/tcp`
+   - 查看防火墙状态
+     
+     `firewall-cmd --state` running代表防火墙正在运行中,如果防火墙处在关闭状态,则运行下面命令开启防火墙`systemctl start firewalld.service`
+   
+   - 查看某个端口是否放行
+     
+     `firewall-cmd --query-port=端口号/tcp`
+   
+   - 放行指定端口
+     
+     `firewall-cmd --zone=public --add-port=8080/tcp --permanent`
+   
+   - 重启防火墙和重新载入配置
+     
+     `systemctl restart firewalld.service`
+     
+     `firewall-cmd --reload`
 
-3. 放行指定端口
-   
-   `firewall-cmd --zone=public --add-port=8080/tcp --permanent`
-
-4. 重启防火墙和重新载入配置
-   
-   `systemctl restart firewalld.service`
-   
-   `firewall-cmd --reload`
+---
 
 ## VPS常见错误解决
 
-- E: 仓库 “xxx” 没有 Release 文件 
+- **E: 仓库 “xxx” 没有 Release 文件 **
   
   首先直接输入`cd /etc/apt/sources.list.d`
   
@@ -321,8 +305,51 @@ curl -sSL https://get.daocloud.io/docker | sh
   
   然后再运行`sudo apt-get update `就不会报错了
 
-- /bin/sh  cc:  未找到命令
+- **/bin/sh  cc:  未找到命令**
   
   失败原因是未安装gcc
   
   解决办法：`yum install gcc-c++ -y`
+
+- **Ubuntu安装yum报错**
+  
+  安装报错E: Unable to locate package，解决办法如下：
+  
+  首先备份sources.list文件,`sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup`
+  
+  更换源`vim /etc/apt/sources.list` 然后按I进入编辑模式，粘贴命令`shift + insert`，选择[Ubuntu 20.04](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)然后在第一行添加镜像`deb http://archive.ubuntu.com/ubuntu/ trusty main universe restricted multiverse`
+  
+  最终sources.list文件如下：
+  
+  然后更新源，并安装yum
+  
+  ```shell
+  apt-get update
+  apt-get install yum
+  ```
+  
+  会有如下提示：`The following packages have unmet dependencies:`这个是缺少相关依赖，按照提示逐一安装即可。然后运行`sudo apt-get install yum` ，安装结束后检查是否安装成功，运行`yum --version`即可。
+
+- **Ubuntu安装Vim时报错，Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held**
+  
+  首先运行的是`apt install vim`这条指令，后来就报错`Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held`，报错如下图所示：
+  
+  ![](/img/vim_install_wrong.png)
+  
+  **解决办法为：**
+  
+  因为我是在运行`apt install xxx`出错，所以先输入`ps afx|grep apt`来查看系统现在和apt有关的进程，输入之后结果如下：
+  
+  ![](/img/vim_install_wrong1.png)
+  
+  图中显示vim存在一个进程，而且显示了这个进程的编号1509，所以接下来输入`kill 1509`，之后在运行`ps afx|grep apt`，就看到没有vim相关的进程了，之后安装vim就非常顺利了。
+  
+  ![](/img/vim_install_wrong2.png)
+  
+  **扩展：**
+  
+  `ps afx|grep apt`这条指令的用途是查看系统相关进程
+  
+  **ps**将某个进程显示出来。
+  
+  **grep**命令是查找，是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。

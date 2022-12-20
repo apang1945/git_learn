@@ -2,7 +2,7 @@
 
 ---
 
-## 软件和环境的搭建
+## 插件的安装
 
 1. **simplefileserver**
    
@@ -120,57 +120,55 @@
 
 - 缺少几个可以使用`yum -y install vim-enhanced`，缺少较多使用`yum -y install vim*`，安装完成后就能使用vim了。可以对vim进行配置，如果想要对所有用户生效则使用全局配置，编辑`/etc/vimrc`配置文件即可。
 
-- 简单配置在[这里](/tips/_vimrc)。
+- 简单配置如下：
+  
+  ```bash
+  set encoding=utf-8      " 设定vim缓冲区以及界面的字符编码为utf-8
+  set terencoding=utf-8  " 设定终端使用的字符编码为utf-8
+  set fileencodings=utf-8,gbk,latin1      " 设定磁盘文件的字符编码优先为utf-8
+  set nocompatible        " 关闭vi兼容模式
+  set number              " 设定显示行号
+  set ruler               " 设定在状态栏显示光标所在的行数等信息
+  set cursorline          " 设定光标线突出显示当前行
+  set showmode            " 设定在命令行界面最下面显示当前模式
+  set showcmd             " 设定显示输入的命令
+  set shiftwidth=4        " 设定<<和>>命令移动4个空格
+  set softtabstop=4       " 设定退格键时一次删除4个空格
+  set tabstop=4           " 设定tab为4个空格
+  set autoindent          " 继承前一行的缩进方式，适用于多行注释
+  set autochdir           " 设定自动切换当前目录为当前文件所在的目录
+  set ignorecase          " 设定搜索的时忽略大小写
+  set nowrapscan          " 禁止在搜索到文件两端时重新搜索
+  set incsearch           " 输入搜索内容时就显示搜索结果
+  set hlsearch            " 搜索时高亮显示被找到的文本
+  set smartindent         " 设定开启新行时使用智能自动缩进
+  set completeopt=preview,menu    " 设定代码补全
+  set noerrorbells        " 设定关闭错误响铃
+  set nobackup            " 设定不使用备份
+  ```
 3. **Centos7更新Git版本**
-- 方法一：
+- 安装依赖包
   
-  - 安装依赖包
-    
-    ```bash
-    yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc -y
-    yum install  gcc perl-ExtUtils-MakeMaker -y
-    ```
-  
-  - 卸载旧版本`yum remove git`，git源码包[下载地址](https://mirrors.edge.kernel.org/pub/software/scm/git/)
-  
-  - 打开用于存放下载的git包的文件夹`cd /usr/local/src/`
-  
-  - 下载git压缩包`wget xxx（git-download-link）`
-  
-  - 解压压缩包`tar -xvf git-2.xx.x.tar.xz`，并打开`cd git-2.xx.x`
-  
-  - 编译并安装`make prefix=/usr/local/git all`，`make prefix=/usr/local/git install`
-  
-  - 配置环境变量
-    
-    `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
-  
-  - 随后验证git版本即可。
+  ```bash
+  yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc -y
+  yum install  gcc perl-ExtUtils-MakeMaker -y
+  ```
 
-- 方法二：
+- 卸载旧版本`yum remove git`，git源码包[下载地址](https://mirrors.edge.kernel.org/pub/software/scm/git/)
+
+- 打开用于存放下载的git包的文件夹`cd /usr/local/src/`
+
+- 下载git压缩包`wget xxx（git-download-link）`
+
+- 解压压缩包`tar -xvf git-2.xx.x.tar.xz`，并打开`cd git-2.xx.x`
+
+- 编译并安装`make prefix=/usr/local/git all`，`make prefix=/usr/local/git install`
+
+- 配置环境变量
   
-  - 首先移除旧版本的Git
-    
-    ```bash
-    sudo yum remove git* // 删除所有git相关
-    或
-    sudo yum remove git // 只删除Git
-    ```
-  
-  - 之后安装相关的**RPM仓库**，运行如下命令：
-    
-    ```bash
-    sudo yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.7-1.x86_64.rpm
-    ```
-  
-  - 之后安装并验证版本即可
-    
-    ```bash
-    yum install git
-    git --version
-    #结果是
-    git version 2.38.1
-    ```
+  `echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile && source /etc/profile`
+
+- 随后验证git版本即可。
 4. **Docker和Docker-compose的安装与卸载**
 - 安装Docker：
   
@@ -214,7 +212,7 @@
 - 安装docker-compose
   
   ```bash
-  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo curl -L "https://github.com/docker/compose/releases/download/v2.14.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
   docker-compose --version
   ```
@@ -353,35 +351,15 @@
 
 2. Luinx基本操作指令
    
-   | 指令                                | 含义                                                               |
-   | --------------------------------- | ---------------------------------------------------------------- |
-   | `df -h`                           | 查看磁盘的剩余容量                                                        |
-   | `rm -rf xxx`                      | 强制递归删除文件夹                                                        |
-   | `touch`                           | touch命令用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件，**可以创建文件** |
-   | `mkdir`                           | 只能创建文件夹以及赋予相关的权限，**不可以创建文件**                                     |
-   | `hostnamectl`                     | 显示与设置主机名称,如果要查看系统的内核版本，可以`uname -r`                              |
-   | `hostname -I`或者`curl ifconfig.me` | 查看服务器的IP                                                         |
-   | `tar -zxvf xxx.tar`               | 解压压缩包，[常见指令](/tips/unzip-learn.md)                               |
-   | `tar cvfz xxx.tar`                | 打包压缩包如上                                                          |
-   | `mv a b`                          | 将a重命名为b                                                          |
-   | `scp A B`                         | 将A的文件传到B处                                                        |
-   |                                   |                                                                  |
+   详细操作指令请到[这里](/tips/Lunix-order.md)查看
+   
+   解压压缩在[这里](/tips/unzip-learn.md)；
+   
+   mv命令在[这里](/tips/mv-learn.md)；
 
 3. Docker基本操作指令
    
-   | 指令                                                    | 含义                                                                                                                          |
-   | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-   | `docker run xxx`                                      | 运行一个镜像                                                                                                                      |
-   | `docker stop xxx`                                     | 停止一个容器                                                                                                                      |
-   | `dokcer rm xxx`                                       | 删除某个容器                                                                                                                      |
-   | `docker rmi xxx`                                      | 删除一个镜像                                                                                                                      |
-   | `docerk ps` or `docker ps -a`                         | 查看docker内容器                                                                                                                 |
-   | `docekr images`                                       | 查看docker内镜像                                                                                                                 |
-   | `docekr inspect xxx`                                  | 检查镜像的具体信息                                                                                                                   |
-   | `docekr run -d --name -v -p -it --volumes-from xxx  ` | -d的意思是后台运行；--name的意思是为容器命名；-v的意思是选择挂载卷；-p的意识是映射端口；-i和-t一般一起使用为-it，它的意思是以交互模式运行，并分配一个伪输入终端；--volumes-from xxx的意思是选择xxx（容器名）； |
-   |                                                       |                                                                                                                             |
-   |                                                       |                                                                                                                             |
-   |                                                       |                                                                                                                             |
+   详细操作指令请到[这里](/tips/Docker-orders.md)查看
 
 ---
 

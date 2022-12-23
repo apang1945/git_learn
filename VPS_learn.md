@@ -199,6 +199,17 @@
   
   [其他Docker安装2](https://blog.csdn.net/m0_37607365/article/details/79811086)
 
+- Docker的配置
+  
+  避免Docker日志文件过于多需要配置先配置一下Docker
+  
+  ```bash
+  cd /etc/docker
+  nano daemon.json
+  ```
+  
+  daemon.json的配置在[这里](/tips/daemon.json)
+
 - 卸载docker
   
   ```bash
@@ -253,6 +264,17 @@
      lsmod | grep bbr  #返回tcp_bbr成功
      lsmod | grep fq  #返回sch_fq成功
      ```
+
+6. **ohmyzsh**
+   
+   ohmyzsh的GitHub在[这里](https://github.com/ohmyzsh/ohmyzsh)，一般的vps没有包含zsh，zsh是一个shell解释器，用来执行相应的命令，感觉最便捷的一点就是可以自定义快捷的指令替换，来实现更短的语句实现同样的功能。具体的配置在[这里](/tips/zshrc)。
+   
+   ```bash
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" #安装
+   vim .zshrc #编辑配置文件
+   source .zshrc #令上面修改的配置文件生效
+   alias install="sudo apt-get install" #添加别名配置的例子
+   ```
 
 ---
 
@@ -323,7 +345,41 @@
    
    - 执行`dockers logs -f xxx`可以查看xxx容器的输出日志。
 
+3. Docker修改映射的端口
+   
+   - 方法一
+     
+     删除原有容器`docker rm -f xxx`，修改`docker-compose.yml`文件，修改里边的端口，然后保存，之后运行：
+     
+     ```bash
+     docker-compose down && docker-compose up -d
+     ```
+   
+   - 方法二
+     
+     删除原有容器`docker rm -f xxx`，运行以下命令：
+     
+     ```bash
+     docker run -d -p 8085:8085  -it --name 容器名称 镜像名称
+     ```
+   
+   - 方法三
+     
+     ```bash
+     docker stop container #停止docker容器
+     docker commit container new_image:tag #commit该容器
+     docker run -d -p 8888:8080 -it --name container01 new_image:tag #使用新镜像重新创建一个 Docker 容器
+     
+     #如果新容器想用回旧容器的名字，需要先删了旧容器，再改名
+     docker rm -f container
+     docker rename container01 container
+     ```
+     
+      
+
 ---
+
+
 
 ## VPS常见命令及操作
 
@@ -365,7 +421,7 @@
 
 ## VPS常见错误解决
 
-- **E: 仓库 “xxx” 没有 Release 文件 **
+- **E: 仓库 “xxx” 没有 Release 文件**
   
   首先直接输入`cd /etc/apt/sources.list.d`
   

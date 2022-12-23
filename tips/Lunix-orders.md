@@ -16,7 +16,7 @@
 | `systemctl disable xxx`                    | 关闭开机启动                                                           |
 | `systemctl list-units --type=service`      | 查看已启动的服务                                                         |
 | `systemctl list-unit-files \| grep enable` | 查看是否设置开机启动                                                       |
-|                                            |                                                                  |
+| `lsof -i:xxx`                              | 查看端口占用                                                           |
 |                                            |                                                                  |
 |                                            |                                                                  |
 |                                            |                                                                  |

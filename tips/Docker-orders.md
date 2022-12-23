@@ -13,7 +13,7 @@
 | `docker logs -f xxx`                                  | 查看xxx容器的输出日志                                                                                                                |
 | `docker update --restart=always xxx`                  | 将正在运行的容器设为自启动                                                                                                               |
 | `docker update --restart=no xxx`                      | 将自启动的容器取消自启动                                                                                                                |
-|                                                       |                                                                                                                             |
+| `systemctl restart docker.service`                    | 重启docker服务                                                                                                                  |
 |                                                       |                                                                                                                             |
 |                                                       |                                                                                                                             |
 |                                                       |                                                                                                                             |

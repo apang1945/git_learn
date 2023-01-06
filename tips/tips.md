@@ -65,4 +65,25 @@
    
    - 访问[谷歌](www.google.com)，然后点击右下角的设置，然后点击搜索设置，之后滚动窗口，找到“结果打开方法”，勾选“在新的浏览器窗口中打开所选的每条搜索结果”，点击“保存”按钮即可。
 
-2. 
+---
+
+# Lunix
+
+1. **Buyvm添加存储块**
+   
+   ```bash
+   #检查是否存储卷在内
+   fdisk -l
+   #查看数据块编号（也可以在邮箱或者BVM客户面板找到）
+   ls /dev/disk/by-id/
+   #创建卷文件夹
+   mkdir /storage256
+   #挂载这个存储块到你这个vps
+   mount -o discard,defaults /dev/disk/by-id/scsi-0BUYVM_SLAB_VOLUME-17327 /storage256
+   #设置开机/重启自动挂载（避免关机后不挂载）
+   echo '/dev/disk/by-id/scsi-0BUYVM_SLAB_VOLUME-17327 /apang ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+   #列出所有可用块设备的信息
+   lsblk
+   #显示磁盘占用
+   df -h
+   ```

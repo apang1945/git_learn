@@ -1,0 +1,13 @@
+{
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "20m",
+        "max-file": "3"
+    },
+    "registry-mirrors": [
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com",
+    "https://mirrors.tuna.tsinghua.edu.cn/",
+    "http://mirrors.sohu.com/"
+    ]
+}

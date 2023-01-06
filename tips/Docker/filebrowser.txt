@@ -1,0 +1,1 @@
+docker run -d -v /apang/data/docker_data/qBittorrent/downloads:/srv -v /apang/data/docker_data/filebrowser/filebrowserconfig.json:/etc/config.json -v /apang/data/docker_data/filebrowser/database.db:/etc/database.db --name myfile -p 8002:80 filebrowser/filebrowser

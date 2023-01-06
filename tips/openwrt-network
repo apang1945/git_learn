@@ -1,0 +1,13 @@
+config interface 'lan'
+        option ifname 'eth0'
+        option proto 'static'
+        option netmask '255.255.255.0'
+        option ipaddr '192.168.123.10'
+        option gateway '192.168.123.1'
+        option broadcast '192.168.123.255'
+        option dns '192.168.123.1'
+
+#以下为结束说明
+option ipaddr 这里填主路由网段的未使用的ip，不要填成你主路由的ip，否则ip冲突上不了网
+option gateway 网关这里填你主路由的ip
+option dns dns填你主路由的ip就行，让你的主路由去解析

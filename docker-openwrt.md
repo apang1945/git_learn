@@ -92,3 +92,19 @@
      以下是K2p的设置。
      
      ![](/img/docker-openwrt-6.png)
+
+
+
+
+
+
+
+PS：以下大佬的教程存档
+
+[F大N1OPENWRT专版](https://www.right.com.cn/forum/thread-4076037-1-3.html)
+
+[Docker安装OpenWRT做旁路由，魔法上网 - 科技玩家](https://www.kejiwanjia.com/jiaocheng/57242.html#:~:text=OpenWRT%20%E6%98%AF%E5%89%8D%E9%9D%A2%20--name%20%E6%8C%87%E5%AE%9A%E7%9A%84%E5%AE%B9%E5%99%A8%E5%90%8D%E5%AD%97%EF%BC%8C%E6%B2%A1%E6%9C%89%E6%8C%87%E5%AE%9A%E7%9A%84%E8%AF%9D%E4%BB%A5%E9%80%9A%E8%BF%87%E8%BF%90%E8%A1%8C%20docker,container%20ls%20%E6%98%BE%E7%A4%BA%E5%87%BA%E7%9A%84%20NAMES%20%E5%AD%97%E6%AE%B5%E8%8E%B7%E5%BE%97%E3%80%82)
+
+[n1 docker安装openwrt（旁路由）](https://blog.csdn.net/zhangjingzheng/article/details/120178257)
+
+[N1盒子通过Docker部署OpenWrt](https://www.jianshu.com/p/8d4229b087f7)

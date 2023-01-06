@@ -91,6 +91,4 @@
      
      以下是K2p的设置。
      
-     ![](/img/docker-openwrt-5.png)
-
-
+     ![](/img/docker-openwrt-6.png)

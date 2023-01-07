@@ -8,7 +8,7 @@
    
    ![](/img/docker-openwrt-1.png)
    
-   有的还需要修改这里`.重命名根目录u-boot-s905x-s912文件，改成u-boot.ext`，这个具体没有测试，都是已经改好的，接下来就是窒息的U盘启动了，试了好几次没有成功，在和at打电话的时候偶然间成功了，具体操作如下：首先连接HDMI和U盘剩下的一个usb接口用一个公对公的数据线连接电脑或者是可以供电的其他设备，最好不要用充电宝，因为充电宝好像会自动断电，极其难受，然后就是称之为虚晃操作，先接入供电线，这里有一个开机没有按任意键就直接emmc启动，尝试了数次之后，总结如下：等到刚刚要emmc启动的时候断电，拔掉电源线，此时是usb供电，不知道是什么原理，现在会自动从U盘启动，是不是极其迷幻？然后就等待命令跑完，之后会要求输入账号密码，账号都是`root`，密码都是`1234`，之后会让你重置root密码，按照要求输入两次即可，之后会让你创建一个新的用户还要输入密码，此时直接`Ctrl+C`跳过即可，然后就进入了Armbian，到此为止U盘启动大功告成，但之后会有越来越多的坑，呜呜呜。还有的说`run usb boot`即可，这个也还没有测试。
+   有的还需要修改这里`u-boot-s905x-s912`文件，改成`u-boot.ext`，这个具体没有测试，都是已经改好的，接下来就是窒息的U盘启动了，试了好几次没有成功，在和at打电话的时候偶然间成功了，具体操作如下：首先连接HDMI和U盘剩下的一个usb接口用一个公对公的数据线连接电脑或者是可以供电的其他设备，最好不要用充电宝，因为充电宝好像会自动断电，极其难受，然后就是称之为虚晃操作，先接入供电线，这里有一个开机没有按任意键就直接emmc启动，尝试了数次之后，总结如下：等到刚刚要emmc启动的时候断电，拔掉电源线，此时是usb供电，不知道是什么原理，现在会自动从U盘启动，是不是极其迷幻？然后就等待命令跑完，之后会要求输入账号密码，账号都是`root`，密码都是`1234`，之后会让你重置root密码，按照要求输入两次即可，之后会让你创建一个新的用户还要输入密码，此时直接`Ctrl+C`跳过即可，然后就进入了Armbian，到此为止U盘启动大功告成，但之后会有越来越多的坑，呜呜呜。还有的说`run usb boot`即可，这个也还没有测试。
 
 2. 坑1：将Armbian写入eMMC
    
@@ -93,12 +93,6 @@
      
      ![](/img/docker-openwrt-6.png)
 
-
-
-
-
-
-
 PS：以下大佬的教程存档
 
 [F大N1OPENWRT专版](https://www.right.com.cn/forum/thread-4076037-1-3.html)
@@ -108,3 +102,35 @@ PS：以下大佬的教程存档
 [n1 docker安装openwrt（旁路由）](https://blog.csdn.net/zhangjingzheng/article/details/120178257)
 
 [N1盒子通过Docker部署OpenWrt](https://www.jianshu.com/p/8d4229b087f7)
+
+
+
+## OpenWrt安装Alist遇到的问题
+
+在sulinggg的openwrt中无法搜索到Alist，查找无结果，解决办法如下：
+
+进入[第三方源网址](https://op.supes.top/packages/)，然后找到自己机器的CPU架构，我的N1盒子的架构师cortex-a53，所以进入[这里](https://op.supes.top/packages/aarch64_cortex-a53/)，界面如下
+
+![](/img/docker-openwrt-7.png)
+
+打开opkg配置界面，注释掉`option check_signature`，然后按照提示修改软件源，修改结果如下
+
+![](/img/docker-openwrt-8.png)
+
+还有个更新指令，**但是我还没有用，暂时作为补充**
+
+```bash
+opkg update
+opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
+reboot
+```
+
+安装好之后又发现缺少`luci-lib-base`依赖，软件包里也没有，然后只能在网上找一个然后上传上去，找的是[这个](https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/luci/)，然后安装就有了。
+
+PS：以下是找到的几个软件源
+
+[pkgs](https://pkgs.org/download/luci-lib-base)，这个主界面很杂，有时间再看
+
+[Openwrt_files](https://openwrt.888913.gq/)
+
+[openwrt.org](https://downloads.openwrt.org/snapshots/packages/aarch64_cortex-a53/luci/)

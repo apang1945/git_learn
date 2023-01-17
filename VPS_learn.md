@@ -227,6 +227,34 @@
   sudo chmod +x /usr/local/bin/docker-compose
   docker-compose --version
   ```
+
+- **国内安装docker和docker-compose**
+  
+  - docker安装
+    
+    ```bash
+    # 阿里云
+    curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
+    #DaoCloud
+    curl -sSL https://get.daocloud.io/docker | sh
+    ```
+  
+  - 卸载docker
+    
+    ```bash
+    sudo apt-get remove docker docker-engine
+    rm -fr /var/lib/docker/
+    ```
+  
+  - 安装docker-compose
+    
+    ```bash
+    curl -L https://get.daocloud.io/docker/compose/releases/download/v2.1.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    ```
+
+
+
 5. **Centos7开启BBR加速**
    
    - yum来更新系统版本`yum update`
@@ -374,12 +402,8 @@
      docker rm -f container
      docker rename container01 container
      ```
-     
-      
 
 ---
-
-
 
 ## VPS常见命令及操作
 
@@ -416,6 +440,28 @@
 3. Docker基本操作指令
    
    详细操作指令请到[这里](/tips/Docker-orders.md)查看
+
+4. Armbain无法连接GitHub
+   
+   下载github文件的时候会报错`Failed to connect to raw.githubusercontent.com port 443`，这个是因为github的dns被污染，导致域名解析失败，解决办法就是查真实IP，查询网站在[这里](https://www.ipaddress.com)，然后输入`raw.githubusercontent.com`查询即可，查询结果如下图
+   
+   ![](/img/armbian-github-1.png)
+   
+   比如选择第一个`185.199.108.133`，然后在终端输入`ping 185.199.108.133`，查看是否可以Ping通
+   
+   ![](/img/armbian-github-2.png)
+   
+   显示这样就表明可以Ping通，然后修改hosts即可
+   
+   输入`nano /etc/hosts`，将`185.199.108.133   raw.githubusercontent.com`添加进去即可完美解决。还有一个这个[GitHub520](https://github.com/521xueweihan/GitHub520)，但是还没有测试。
+
+
+
+PS：备份一些经常使用的Tips
+
+[咕咕鸽常用的脚本](https://blog.laoda.de/archives/useful-script)
+
+
 
 ---
 
@@ -493,3 +539,34 @@
   rm -rf xxx #递归删除文件名或目录,-r是递归处理，就是一层一层的删,-f是强制删除
   sudo rm -d #-d删除文件夹
   ```
+
+- **运行`./*.sh`提示`zsh: permission denied`**
+  
+  ```bash
+  chmod u+x *.sh
+  #chmod是权限管理命令change the permissions mode of a file的缩写。
+  #u代表所有者。x代表执行权限。’+’ 表示增加权限。
+  chmod u+x file.sh 就表示对当前目录下的file.sh文件的所有者增加可执行权限。
+  ```
+
+- **Debian更新软件报错**
+  
+  运行报错`Repository 'http://ftp.us.debian.org/debian bullseye InRelease' changed its 'Version' value from '11.5' to '11.6'`
+  
+  主要是说源从稳定源切换到不稳定源，运行`apt-get update --allow-releaseinfo-change`即可解决
+
+- 运行`./*.sh`提示`-bash: ./*.sh: 权限不够`
+  
+  是因为没有权限，输入`chmod 777 ./*.sh`即可解决
+
+- **Debian11中文显示乱码**
+  
+  安装locales
+  
+  `apt-get install locales`
+  
+  设置语言首选项
+  
+  `dpkg-reconfigure locales`
+  
+  此时选择`zh_CN.UTF-8`，注意空格是选择，回车是确定，按下空格之后再按回车，然后选择`zh_CN.UTF-8`，稍后`reboot`重启即可。

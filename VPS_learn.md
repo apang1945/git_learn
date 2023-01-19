@@ -252,9 +252,6 @@
     curl -L https://get.daocloud.io/docker/compose/releases/download/v2.1.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     ```
-
-
-
 5. **Centos7开启BBR加速**
    
    - yum来更新系统版本`yum update`
@@ -295,7 +292,9 @@
 
 6. **ohmyzsh**
    
-   ohmyzsh的GitHub在[这里](https://github.com/ohmyzsh/ohmyzsh)，一般的vps没有包含zsh，zsh是一个shell解释器，用来执行相应的命令，感觉最便捷的一点就是可以自定义快捷的指令替换，来实现更短的语句实现同样的功能。具体的配置在[这里](/tips/zshrc)。
+   ohmyzsh的GitHub在[这里](https://github.com/ohmyzsh/ohmyzsh)，如果GitHub无法访问的话，尝试这个在gitee上同步的仓库，一般的vps没有包含zsh，zsh是一个shell解释器，用来执行相应的命令，感觉最便捷的一点就是可以自定义快捷的指令替换，来实现更短的语句实现同样的功能。具体的配置在[这里](/tips/zshrc)。
+   
+   卸载ohmyzsh，一般来说直接运行`uninstall_oh_my_zsh`即可，但是之前从Gitee上找的国内镜像运行说是`-bash: uninstall_oh_my_zsh: command not found`，这里就需要找到ohmyzsh的文件夹里的卸载程序了，输入`.oh-my-zsh/tools/uninstall.sh`即可解决，如果遇到`.sh`文件没有执行权限的话，进入到tools文件夹下，输入`chmod u+x uninstall.sh`，然后再运行即可解决。
    
    ```bash
    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" #安装
@@ -303,6 +302,26 @@
    source .zshrc #令上面修改的配置文件生效
    alias install="sudo apt-get install" #添加别名配置的例子
    ```
+   
+   **备注**：在卸载zsh之后千万不能急着执行`reboot`，因为此时的Shell解释器还是zsh，如果直接reboot的话，会导致系统开机无法找到zsh而卡住一直无法开机，这样的话就得重新安装系统了。**一定要注意**！！！
+   
+   此外以下是修改Shell解释器为默认bash的方法：
+   
+   ```bash
+   cat /etc/shells #首先先查看系统中所有可用的shell
+   # 接下来使用chsh命令来修改
+   grep root /etc/passwd
+   chsh --shell /bin/bash root
+   grep root /etc/passwd
+   ```
+
+7. **为Docker添加定时重启**
+   
+   最近添加了Xiaoya大佬的[资源盘](http://alist.xiaoya.pro/)，Docker镜像在[这里](https://hub.docker.com/r/xiaoyaliu/alist)，具体操作只需要一个命令即可，因为使用的是5678端口，所以使用之前一定要检查端口占用，输入`lsof -i:5678`即可查询，然后输入`curl -s http://docker.xiaoya.pro/update_xiaoya.sh | bash`，直接运行即可。
+   
+   接下来介绍创建定时重启任务，首先创建一个文件夹来存放定时重启文件和日志记录，并加入`xiaoya-restart.sh`文件，之后的重启任务都可以仿照[这个](/tips/xiaoya-restart.sh)，之后运行`chmod u+x xiaoya-restart.sh`来增加执行权限，之后就需要将脚本加入定时任务中。
+   
+   输入`crontab -e`来编辑crontab文件，并加入定时任务，添加下面这条语句`0 */2 * * * /root/xxx/xiaoya-restart.sh`，注意将xxx替换为自己的路径，这个语句的定时是每隔两小时执行一次，如需要别的配置，只需要修改前边的语句即可，可以参考[crontab执行时间](https://tool.lu/crontab/)，还有一些具体的例子的解释用来学习，可以看这个[cron表达式详解](https://www.cnblogs.com/yanghj010/p/10875151.html)。之后需要重载crontab配置文件，博客文章里写的是执行`systemctl reload crond.service`，但是在Ubuntu系统运行之后报错`Failed to reload crond.service: Unit crond.service not found.`，查询之后发现：这是因为Ubuntu上的服务名称是cron不是crond，所以命令应该是：`sudo service cron start`
 
 ---
 
@@ -455,13 +474,9 @@
    
    输入`nano /etc/hosts`，将`185.199.108.133   raw.githubusercontent.com`添加进去即可完美解决。还有一个这个[GitHub520](https://github.com/521xueweihan/GitHub520)，但是还没有测试。
 
-
-
 PS：备份一些经常使用的Tips
 
 [咕咕鸽常用的脚本](https://blog.laoda.de/archives/useful-script)
-
-
 
 ---
 

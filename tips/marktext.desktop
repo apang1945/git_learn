@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=MarkText
+Comment=Next generation markdown editor
+Exec=/home/taozi/apang/marktext-x86_64.AppImage %F
+Terminal=false
+Type=Application
+Icon=/home/taozi/apang/marktext.png
+Categories=Office;TextEditor;Utility
+MimeType=text/markdown;
+Keywords=marktext;
+StartupWMClass=marktext
+Actions=NewWindows
+StartupNotify=true
+
+[Desktop Action NewWindows]
+Name=New Window
+Exec=/home/taozi/apang/marktext-x86_64.AppImage %F
+Icon=/home/taozi/apang/marktext.png

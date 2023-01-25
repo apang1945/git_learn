@@ -140,3 +140,11 @@ mv ./v2ray/* /home/iguge/snap/qv2ray/3384/.config/qv2ray/vcore/
 `top`命令中显示的进程列表,然后，可以按如下方式使用kill命令使用它的PID终止进程：
 `kill [PID]`，还可以使用pkill通过使用以下语法来终止进程：`pkill [ProcessName]`，例如：`例：pkill gnome-software`，然后是killall命令，您可以使用它来杀死应用程序的所有实例。这是语法：`killall [ProcessName]`，例如：`killall gedit`。
 
+### Linux使用ssh连接断连
+
+```bash
+sudo nano /etc/ssh/ssh_config
+#然后添加以下几行
+ServerAliveInterval 30
+ServerAliveCountMax 6
+```

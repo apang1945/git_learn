@@ -15,6 +15,8 @@ mv ./v2ray/* /home/iguge/snap/qv2ray/3384/.config/qv2ray/vcore/
 
 在F大的仓库里下载适用于Linux的文件，目前的最新版本是`Clash.for.Windows-0.20.14-x64-linux.tar.gz`，下载地址在[这里](https://github.com/Fndroid/clash_for_windows_pkg/releases)，解压文件之后进入，运行`./cfw`即可开启Clash。之后只需要在系统的网络里加入代理，将端口设置为7890即可。
 
+[直接使用V2Ray](https://vic.wang/blog/linux/2021/03/26/Linux-%E7%B3%BB%E7%BB%9F%E7%BF%BB%E5%A2%99%E6%96%B9%E6%B3%95/)
+
 ### 将AppImage加入桌面
 
 详细参考[这里](/tips/AppImage.md)

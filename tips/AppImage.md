@@ -2,12 +2,16 @@
 
 ```bash
 chomd +x xxx.AppImage // 可执行权限
-sudo cp marktext.destop /usr/share/applications #移动到系统文件夹
+sudo cp marktext.destop /usr/share/applications //移动到系统文件夹
 #添加右键打开方式
 cd /usr/share/applications
 sudo gedit defaults.list
 #在最后一行添加：
 text/markdown=marktext.desktop
+#命令行快捷方式的创建
+sudo cp xxx.AppImage /usr/bin/qv2ray
+sudo chmod +x /usr/bin/qv2ray
+#接下来我们在终端中输入 qv2ray ，发现已经可以成功打开qv2ray
 ```
 
 参考如下：

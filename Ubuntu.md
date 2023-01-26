@@ -142,9 +142,21 @@ mv ./v2ray/* /home/iguge/snap/qv2ray/3384/.config/qv2ray/vcore/
 
 ### Linux使用ssh连接断连
 
+方法一：修改服务器端
+
+```bash
+sudo nano /etc/ssh/ssh_config
+#然后添加以下几行
+ClientAliveInterval 30
+ClientAliveCountMax 6
+```
+
+方法二：修改客户端
+
 ```bash
 sudo nano /etc/ssh/ssh_config
 #然后添加以下几行
 ServerAliveInterval 30
 ServerAliveCountMax 6
 ```
+

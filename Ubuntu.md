@@ -11,7 +11,7 @@ mv ./v2ray/* /home/iguge/snap/qv2ray/3384/.config/qv2ray/vcore/
 
 然后点击检查核心设置，此时换了4.45.2版本绝对没有任何问题，然后添加订阅之后即可。
 
-#clash
+# clash
 
 在F大的仓库里下载适用于Linux的文件，目前的最新版本是`Clash.for.Windows-0.20.14-x64-linux.tar.gz`，下载地址在[这里](https://github.com/Fndroid/clash_for_windows_pkg/releases)，解压文件之后进入，运行`./cfw`即可开启Clash。之后只需要在系统的网络里加入代理，将端口设置为7890即可。
 
@@ -203,7 +203,7 @@ sudo unzip ~/download/spark-store-dependencies-kylin.zip
 sudo dpkg -i ~/download/spark-store-dependencies-kylin/*.deb
 
 # 安装Spark-store
-sudo dpkg -i ~/download/spark-store_2.0.2.4_amd64.deb
+sudo dpkg -i ~/download/spark-store_4.2_amd64.deb
 
 # 如果哪个步骤出现依赖不完整，就使用以下命令修复
 sudo apt update

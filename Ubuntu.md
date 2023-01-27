@@ -162,3 +162,58 @@ ServerAliveInterval 30
 ServerAliveCountMax 6
 ```
 
+## Ubuntu安装Spark-Store
+
+安装前准备：
+
+[Spark-Store安装包](https://gitee.com/deepin-community-store/spark-store/releases)
+
+[Spark-Store官方文档](https://gitee.com/deepin-community-store/spark-store)
+
+因为我是Ubuntu20.04，所以需要下载依赖包，下载连接在[这里](https://spark-app.store/download)
+
+### 安装deepin-wine5
+
+```bash
+# 添加官方源
+sudo gedit /etc/apt/sources.list.d/deepin.list
+deb [by-hash=force] https://community-packages.deepin.com/deepin/ apricot main contrib non-free
+# 在文件中添加deepin20商店源
+sudo gedit /etc/apt/sources.list.d/appstore.list
+deb https://community-store-packages.deepin.com/appstore eagle appstore
+# 添加密钥
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1C30362C0A53D5BB
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 78BD65473CB3BD13
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 425956BB3E31DF51
+# 先 update
+sudo apt update
+# 安装 deepin-wine5
+sudo apt install -t focal deepin-wine5 deepin-wine5-i386
+# 删除源
+sudo mv /etc/apt/sources.list.d/deepin.list  /etc/apt/sources.list.d/deepin.list.bak
+sudo mv /etc/apt/sources.list.d/appstore.list  /etc/apt/sources.list.d/appstore.list.bak
+sudo apt update
+```
+
+### 安装Spark-store/星火应用商店
+
+```bash
+# 安装Spark-store依赖包
+sudo unzip ~/download/spark-store-dependencies-kylin.zip
+sudo dpkg -i ~/download/spark-store-dependencies-kylin/*.deb
+
+# 安装Spark-store
+sudo dpkg -i ~/download/spark-store_2.0.2.4_amd64.deb
+
+# 如果哪个步骤出现依赖不完整，就使用以下命令修复
+sudo apt update
+sudo apt -f install
+sudo apt upgrade
+```
+
+
+
+
+
+
+

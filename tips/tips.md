@@ -25,11 +25,51 @@
    ServerAliveCountMax 3 #这条指令的意思是设置最多尝试连接次数，例如：最多尝试三次
    ```
 
+3. Ubuntu和Windows时间不匹配
+   
+   先说下两个概念：
+   
+   UTC即Universal Time Coordinated，协调世界时，[世界统一时间](https://baike.baidu.com/link?url=HnX2f1XGSuotBE1y-885nj2eeiyHnFBdgWHP_f0hCNDSHO9kUbSSNDaYDJ9BQ4p5JUzMhZfbPKv76FkHnZ5CtPgACZ5uVpz3R48L_SDVcQr0Q7jI75gXTkKwerfz1sOY8VFrTL0ddG-NmmwxIfXFSK)
+   
+   GMT 即Greenwich Mean Time，格林尼治平时
+   
+   Windows 与 Mac/Linux 看待系统硬件时间的方式是不一样的：
+   
+   Windows把计算机硬件时间当作本地时间(local time)，所以在Windows系统中显示的时间跟BIOS中显示的时间是一样的。
+   
+   Linux/Unix/Mac把计算机硬件时间当作 UTC，所以在Linux/Unix/Mac系统启动后在该时间的基础上，加上电脑设置的时区数（ 比如我们在中国，它就加上“8” ），因此，Linux/Unix/Mac系统中显示的时间总是比Windows系统中显示的时间快8个小时。
+   
+   **解决办法：**
+   
+   1.在Ubuntu中把计算机硬件时间改成系统显示的时间，即禁用Ubuntu的UTC。
+   
+   在 Ubuntu 16.04 版本以前，关闭UTC的方法是编辑/etc/default/rcS，将UTC=yes改成UTC=no， 但在Ubuntu 16.04使用systemd启动之后，时间改成了由timedatectl来管理，所以更改方法是
+   
+   ```bash
+   timedatectl set-local-rtc 1 --adjust-system-clock
+   ```
+   
+   亦可以安装nptdate来实现
+   
+   ```bash
+   sudo apt-get install ntpdate
+   sudo ntpdate time.windows.com
+   sudo hwclock --localtime --systohc
+   ```
+   
+   2.修改 Windows对硬件时间的对待方式，让 Windows把硬件时间当作UTC。
+   
+   打开命令行程序，在命令行中输入下面命令并回车
+   
+   ```bash
+   Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+   ```
+
 ---
 
 ### 增强
 
-1. 为Windows加入Vim
+1. **为Windows加入Vim**
    
    - 在GitHub下载Windows的安装包，在[这里](https://github.com/vim/vim-win32-installer/releases)，安装之后添加系统变量和用户变量，用户变量的名字命名为`VIM`
    
@@ -52,6 +92,15 @@
      在`_vimrc`中添加这些[内容](/tips/vim_plugin.txt)，依次安装各个常用插件，具体操作详情参考[这里](https://blog.csdn.net/qyhaill/article/details/99701566)。
      
      在cmd打开vim，并执行`:PluginInstall`安装插件。如果遇到提示`:PluginInstall`不是命令的错误，尝试把上面第二行`set rtp +=`后面的内容改为绝对路径。
+
+2. **三种方法禁止Windows更新**
+- 按Win+R打开“运行”，输入gpedit.msc点击确定
+  
+  依次选择计算机配置——>管理模板——>Windows 组件，然后找到“Windows 更新”选项 双击“配置自动更新”然后禁用即可。
+- 按Win+R打开“运行”，输入services.msc点击确定。找到“Windows Update”，右键属性。禁用、停用，应用、确定保存，然后重启电脑
+- 打开设置——>网络和Internet，然后找到你所使用的网络类型，再点进去，然后将设为按流量计费的连接打开。
+
+只有第一个需要专业版才可以设置。
 
 ---
 
